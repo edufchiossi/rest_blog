@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Home</title>
+	<meta charset="utf-8">
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"> -->
+	<!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400"> -->
+	<link rel="stylesheet" href="all.css">
+</head>
+<style></style>
+<body>
+	<header>
+		<div class="home">
+			<img class="material-icons categoriesBt" src="imgs/list.png"></img>
+			<!-- <i class="material-icons categoriesBt">list</i> -->
+			<a href="home.html" class="material-icons icon">home</a>
+		</div>
+		<div class="search">
+			<input type="text" placeholder="Pesquisa">
+			<a href="search.html">
+				<!-- <img src="imgs/icons/search.png"> -->
+			</a>
+		</div>
+		<div class="user">
+			<div class="data">
+				<span>Not logged</span>
+<!-- 				<span class="name">José Aparecido da Silva</span>
+				<i class="credits">josedasilva@gmail.com</i>
+ -->			</div>
+			<a href="profile.html">
+				<!-- <img class="user" src="imgs/photos/me.jpg"> -->
+			</a>
+		</div>
+	</header>
+	<main>
+		<!-- <div class="categories"></div> -->
+		<div class="posts"></div>
+	</main>
+<script>
+let posts = document.querySelector('div.posts')
+let categoriesBt = document.querySelector('.categoriesBt')
+// let categories = document.querySelector('div.categories')
+// categories.sizee = '-20vw'
+// categoriesBt.i = 0
+// categoriesBt.addEventListener('click', ev => {
+// 	if(categoriesBt.i%2 == 0)
+// 		translateNum = 0
+// 	else
+// 		translateNum = categories.sizee
+// 	categoriesBt.i++
+// 	categories.style.transform = 'translate('+translateNum+')'
+// })
+let opa_i = 1
+function opa(){
+	console.log('opa', opa_i++)
+}
+function createPost(postJSON){
+	post = document.createElement('div')
+	post.className = 'post'
+	post.innerHTML = `
+		<div class="title"> <h1>`+postJSON.title+`</h1> </div>
+		<span>`+postJSON.text+`</span>
+		<div class="credit"> `+postJSON.author+` em `+postJSON.creation_dt+` </div>
+	`
+	return post
+}
+async function setPosts() {
+	url = 'http://localhost:80/prog/back-end/api/rest-blog/api/post/read-all.php'
+	let settings = {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		}
+	}
+	let request = await fetch(url, settings)
+	postsJSON = await request.json()
+	for(let postJSON of postsJSON){
+		post = createPost(postJSON)
+		posts.appendChild(post)
+	}
+}
+setPosts()
+
+</script>
+</body>
+</html>
+
+<!-- 
+/*
+async function getPosts() {
+	let settings = {
+		// method: "GET",
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json'
+		}
+	}
+	let url = "http://localhost:80/prog/back-end/api/rest-blog/api/post/read-all.php"
+	let xhr = new XMLHttpRequest()
+	xhr.open('GET', url)
+	xhr.send()
+	xhr.onreadystatechange = async function(){
+		if(this.readyState == 4 && this.status == 200){
+			var posts = await xhr.responseText
+			return posts
+		}
+	}
+}
+posts = getPosts()
+// posts = getPosts()
+console.log('posts', posts)
+// posts = JSON.parse(posts)
+*/ -->
