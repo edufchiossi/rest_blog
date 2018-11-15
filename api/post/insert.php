@@ -1,10 +1,12 @@
 <?php
-$method = $_SERVER['REQUEST_METHOD'];
-if($method != 'POST')
-	die("'$method' method not supported, this is a script for 'POST' method");
 // pattern
-	header('Content-Type:application/json');
 	header('Access-Control-Allow-Origin: *');
+	header('Access-Control-Allow-Headers: Content-Type, Accept');
+	header('Content-Type:application/json');
+	$method = $_SERVER['REQUEST_METHOD'];
+	$thisScriptMethod = 'POST';
+	if($method != $thisScriptMethod)
+		die("'$method' method not supported, this is a script for '$thisScriptMethod' method");
 	include_once '../../config/Connection.php';
 	include_once '../../models/dmh.php';
 	$db = new Connection();
